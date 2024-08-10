@@ -3,7 +3,8 @@ WORKDIR /work
 COPY . .
 RUN go build -o getvault
 
-FROM scratch as runtime
+FROM debian:bookworm-slim as runtime
 COPY --from=build /work/getvault .
 
+EXPOSE 5000
 CMD ./getvault

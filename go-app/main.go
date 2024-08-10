@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"os"
+	"time"
 
 	vault "github.com/hashicorp/vault/api"
 	auth "github.com/hashicorp/vault/api/auth/approle"
@@ -53,4 +54,5 @@ func main() {
 	} else {
 		fmt.Printf("logged in to Vault with approle auth %s", login)
 	}
+	time.Sleep(1 * time.Hour)
 }
