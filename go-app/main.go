@@ -14,6 +14,7 @@ func LoginWithAppRole() (string, error) {
 	// vault client config
 	// ref https://pkg.go.dev/github.com/hashicorp/vault/api@v1.14.0#DefaultConfig
 	config := vault.DefaultConfig()
+	config.Address = "http://vault.vault.svc.cluster.local:8200"
 
 	client, err := vault.NewClient(config)
 	if err != nil {
