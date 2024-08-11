@@ -10,7 +10,7 @@ import (
 	auth "github.com/hashicorp/vault/api/auth/approle"
 )
 
-func LoginWithAppRole() (string, error) {
+func GetSecretWithAppRole() (string, error) {
 	// vault client config
 	// ref https://pkg.go.dev/github.com/hashicorp/vault/api@v1.14.0#DefaultConfig
 	config := vault.DefaultConfig()
@@ -21,6 +21,7 @@ func LoginWithAppRole() (string, error) {
 		return "", fmt.Errorf("unable to initialize Vault client: %w", err)
 	}
 
+	// Vault's approle auth role_id & secret_id
 	roleID := os.Getenv("ROLE_ID")
 	if roleID == "" {
 		return "", fmt.Errorf("no role ID was provided in ROLE_ID env var")
@@ -44,16 +45,30 @@ func LoginWithAppRole() (string, error) {
 		return "", fmt.Errorf("no auth info was returned after login")
 	}
 
-	return "login successfully", nil
+	// get secret from the default mount path for KV v2 "go-app/secret"
+	// ref https://pkg.go.dev/github.com/hashicorp/vault/api@v1.14.0#KVv2
+	secret, err := client.KVv2("go-app/secret").Get(context.Background(), "creds")
+	if err != nil {
+		return "", fmt.Errorf("unable to read secret: %w", err)
+	}
+
+	// data map can contain more than one key-value pair,
+	// in this case we're just grabbing `username`
+	value, ok := secret.Data["usename"].(string)
+	if !ok {
+		return "", fmt.Errorf("value type assertion failed: %T %#v", secret.Data["username"], secret.Data["username"])
+	}
+
+	return fmt.Sprintf("username is %s", value), nil
 }
 
 func main() {
 
-	login, err := LoginWithAppRole()
+	secret, err := GetSecretWithAppRole()
 	if err != nil {
 		fmt.Println(err)
 	} else {
-		fmt.Printf("logged in to Vault with approle auth %s", login)
+		fmt.Print(secret)
 	}
 	time.Sleep(1 * time.Hour)
 }
