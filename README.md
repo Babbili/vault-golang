@@ -81,15 +81,15 @@ kubectl -n vault port-forward svc/vault-ui 8200
 
 we can see secret engines, i used **KV** (Key Vaule) on path `go-app/secret` , others such as *Transit secret engine* which is used as Encryption as a service, such as encrypting database entries and decrypt it in the application, or encrypting Kubernetes secrets ...
 
-[vault-secret-engines](./vault-ui/Screenshot%20from%202024-08-10%2014-24-30.png)
-[create-secret](./vault-ui/Screenshot%20from%202024-08-10%2014-26-27.png)
-[list-secret](./vault-ui/Screenshot%20from%202024-08-10%2014-26-48.png)
+<img src="./vault-ui/Screenshot%20from%202024-08-10%2014-24-30.png" width="100%" height="auto" alt="vault-secret-engines">
+
+<img src="./vault-ui/Screenshot%20from%202024-08-10%2014-26-27.png" width="100%" height="auto" alt="create-kv-secret">
+
+<img src="./vault-ui/Screenshot%20from%202024-08-10%2014-26-48.png" width="100%" height="auto" alt="list-secret">
 
 
 Auth methods such as JWT, Kuberentes, username & password, ..., were using **approle** for `go-app` to access Vault
-
-[vault-auth](./vault-ui/Screenshot%20from%202024-08-10%2014-30-52.png)
-
+<img src="./vault-ui/Screenshot%20from%202024-08-10%2014-30-52.png" width="100%" height="auto" alt="vault-auth-methods">
 
 
 ## deploy go-app to Kuberentes
