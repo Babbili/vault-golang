@@ -3,7 +3,7 @@
 This repository showcases installing a Hashicorp Vault server on Kubernetes for centralized secret management and encryption. It demonstrates how to retrieve a secret from Vault *KV v2* secret engine in a Go application that accesses Vault using *approle auth*. This setup provides a secure method for managing, versioning, and encrypting sensitive data across all applications, with fine-grained access control, all centralized in a Vault server & UI.
 
 
-## Install Vault server on Kuberentes
+## Install Vault server on Kubernetes
 
 install Hashicorp Vault helm chart on Kubernetes
 
@@ -79,7 +79,7 @@ kubectl -n vault port-forward svc/vault-ui 8200
 
 ```
 
-we can see secret engines, i used **KV** (Key Vaule) on path `go-app/secret` , others such as *Transit secret engine* which is used as Encryption as a service, such as encrypting database entries and decrypt it in the application, or encrypting Kubernetes secrets ...
+We can access various secret engines in Vault. I used the **KV** (Key-Value) engine at the path `go-app/secret`, other secret engines, such as the *Transit engine* provides encryption as a service. This can be useful for tasks like encrypting database entries and decrypting them in applications, or even encrypting Kubernetes secrets
 
 <img src="./vault-ui/Screenshot%20from%202024-08-10%2014-24-30.png" width="100%" height="auto" alt="vault-secret-engines">
 
@@ -88,11 +88,12 @@ we can see secret engines, i used **KV** (Key Vaule) on path `go-app/secret` , o
 <img src="./vault-ui/Screenshot%20from%202024-08-10%2014-26-48.png" width="100%" height="auto" alt="list-secret">
 
 
-Auth methods such as JWT, Kuberentes, username & password, ..., were using **approle** for `go-app` to access Vault
+Auth methods such as JWT, Kubernetes, username & password, ..., we're using **approle** for `go-app` to access Vault
+
 <img src="./vault-ui/Screenshot%20from%202024-08-10%2014-30-52.png" width="100%" height="auto" alt="vault-auth-methods">
 
 
-## deploy go-app to Kuberentes
+## deploy go-app to Kubernetes
 
 apply go-app Kubernetes manifests in *kubernetes-manifests/go-app.yaml*
 
